@@ -1,0 +1,21 @@
+{
+  "name": "interactive-comments-section-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "OGEmanuel",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7.0",
+    "querystring-es3": "^0.2.1"
+  },
+  "dependencies": {
+    "core-js": "^3.25.1",
+    "regenerator-runtime": "^0.13.9"
+  }
+}

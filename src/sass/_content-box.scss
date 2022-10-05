@@ -1,0 +1,329 @@
+.comments {
+  background-color: $white;
+  margin: 0 auto;
+  margin-top: 2rem;
+  padding: 1.5rem;
+
+  @media only screen and (max-width: $phone-only) {
+    border-radius: 2.5%;
+    // width: 93%;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.container__comments,
+.add-comment {
+  @media only screen and (max-width: $phone-only) {
+    width: 93%;
+    margin: 0 auto;
+  }
+}
+
+.add-comment {
+  @media only screen and (max-width: $phone-only) {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+}
+
+.container__replies {
+  // width: 100%;
+  // margin-left: auto;
+  position: relative;
+  @media only screen and (max-width: $phone-only) {
+    // margin-bottom: 1rem;
+    margin: 1rem 1rem 1rem 0.5rem;
+    width: 100%;
+    &::before {
+      content: '';
+      display: block;
+      width: 0.7%;
+      height: 100%;
+      position: absolute;
+      top: 0%;
+      left: 2.5%;
+      background-color: $color-neutral-2;
+      opacity: 0.1;
+      // z-index: 10;
+    }
+  }
+  .replies {
+    background-color: $white;
+    margin-left: 2.5rem;
+    margin-right: 0;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    @media only screen and (max-width: $phone-only) {
+      border-radius: 2.5%;
+      width: 88%;
+      margin-right: 1.5rem;
+    }
+
+    .score-box {
+      width: 30%;
+      .score {
+        font-size: 1.7rem;
+      }
+    }
+
+    .reply-box {
+      width: 20%;
+      margin-right: 1rem;
+      .reply-icon {
+        padding-top: 0.4rem;
+      }
+      .reply {
+        font-size: 1.8rem;
+        color: $color-primary-1;
+        font-weight: 500;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: $phone-only) {
+  .user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    &__img {
+      width: 4rem;
+      margin-right: 2rem;
+
+      .user-photo {
+        width: 100%;
+      }
+    }
+
+    &__username {
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-right: 2rem;
+      color: $color-neutral-1;
+    }
+
+    .created-at {
+      font-size: 1.6rem;
+      color: $color-neutral-2;
+    }
+  }
+  .content-box {
+    margin-bottom: 1.5rem;
+
+    .content {
+      font-size: 1.6rem;
+      color: $color-neutral-2;
+      width: 100%;
+
+      span {
+        font-weight: 500;
+        color: $color-primary-1;
+      }
+    }
+  }
+
+  .score-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color-neutral-3;
+    width: 35%;
+    border-radius: 1rem;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+
+    .score {
+      color: $color-primary-1;
+      font-size: 1.9rem;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
+
+  .plus {
+    padding-top: 0.4rem;
+  }
+  .minus {
+    padding-bottom: 0.2rem;
+  }
+
+  .reply-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 21%;
+    cursor: pointer;
+
+    .reply-icon {
+      padding-top: 0.6rem;
+    }
+    .reply {
+      font-size: 1.7rem;
+      color: $color-primary-1;
+      font-weight: 500;
+    }
+  }
+
+  .replies__current-user {
+    .user {
+      margin-bottom: 1rem;
+      &__img {
+        margin-right: 1.2rem;
+      }
+      &__username {
+        margin-right: 1rem;
+      }
+      &-tag {
+        background-color: $color-primary-1;
+        padding: 0rem 0.7rem 0rem 0.7rem;
+        border-radius: 0.3rem;
+        margin-right: 1.2rem;
+
+        .you {
+          color: $white;
+          font-size: 1.2rem;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .display__footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .current-user__tool--box {
+    width: 50%;
+    align-items: center;
+    cursor: pointer;
+
+    .font {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-left: 0.6rem;
+    }
+
+    svg {
+      margin-top: 0.5rem;
+    }
+    .delete {
+      color: $color-primary-2;
+    }
+
+    .edit {
+      color: $color-primary-1;
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 1.5rem 1rem 7rem 1.5rem;
+    border: 0.1rem solid hsl(211, 10%, 70%);
+    border-radius: 0.8rem;
+    margin-bottom: 2rem;
+    font-family: inherit;
+    font-size: 1.6rem;
+    color: $color-neutral-2;
+    font-weight: 500;
+    resize: none;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  ::placeholder {
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-family: 'Rubik', sans-serif;
+    color: $color-neutral-2;
+  }
+
+  .button {
+    padding: 0rem 3rem 0rem 3rem;
+    border: none;
+    background-color: $color-primary-1;
+    border-radius: 1rem;
+    text-transform: uppercase;
+    color: $white;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .alert {
+    padding: 2rem;
+    background-color: $white;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 2.5%;
+
+    .delete-comment {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      // color: $color-neutral-2;
+      // opacity: 0.9;
+    }
+
+    .button {
+      padding: 1.5rem 2rem 1.5rem 2rem;
+      font-size: 1.5rem;
+
+      &-cancel {
+        background-color: $color-neutral-2;
+        // margin-right: ;
+      }
+
+      &-delete {
+        background-color: $color-primary-2;
+      }
+    }
+  }
+
+  .comments__user {
+    .user {
+      overflow-wrap: break-word;
+      // margin-bottom: 2rem;
+      &__img {
+        margin-right: 2rem;
+      }
+      &__username {
+        margin-right: 2rem;
+      }
+      &-tag {
+        margin-right: 2rem;
+      }
+    }
+  }
+
+  .modal {
+    position: fixed;
+    // margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 92%;
+
+    background-color: white;
+    // padding: 6rem;
+    border-radius: 2.55%;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(1px);
+    z-index: 5;
+  }
+}

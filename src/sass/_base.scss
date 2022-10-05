@@ -1,0 +1,52 @@
+$color-primary-1: hsl(238, 40%, 52%); // - Moderate blue
+$color-primary-2: hsl(358, 79%, 66%); // - Soft Red
+$color-primary-3: hsl(239, 57%, 85%); //- Light grayish blue
+$color-primary-4: hsl(357, 100%, 86%); //- Pale red
+
+$color-neutral-1: hsl(212, 24%, 26%); // - Dark blue
+$color-neutral-2: hsl(211, 10%, 45%); // - Grayish Blue
+$color-neutral-3: hsl(223, 19%, 93%); // - Light gray
+$color-neutral-4: hsl(228, 33%, 97%); // - Very light gray
+$white: hsl(0, 0%, 100%); // - White
+
+$phone-only: 37.4em; // 599px / 16px (use max-width)
+$tablet-portrait-up: 37.5em; // 600px / 16px (use min-width)
+$tablet-landscape-up: 56.25em; // 900px / 16px (use min-width)
+$desktop-up: 75em; // 1200px / 16px (use min-width)
+$big-desktop-up: 112.5em; //1800px / 16px (use min-width)
+
+// @media only screen and (max-width: $Tablet-landscape) {
+//   width: 30%;
+//   left: 16.1%;
+// }
+
+// @media only screen and (max-width: $Tablet-portrait) {
+//   width: 50%;
+// }
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  // color: blue;
+  background-color: $color-neutral-3;
+  // background-size: cover;
+  // min-height: calc(100vh - 2 * 4vw);
+}
