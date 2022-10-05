@@ -572,11 +572,6 @@ const deleteComments = function () {
     comments.splice(index, 1);
     generateMarkup(comments);
     console.log(comments, comments.length);
-
-    // container
-    //   .querySelector(`.comments__${clicked.dataset.id}`)
-    //   ?.closest('.comments')
-    //   .remove();
   });
 
   container.addEventListener('click', function (e) {
