@@ -160,11 +160,10 @@ ${comments
               columns="50"
               wrap="hard"
               class="add-reply__input add-reply__input--${comments.id}"
-              data-id="${comments.id}" 
-              value="@${comments.user.username}"
+              data-id="${comments.id}"
               name="user-replies__${comments.id}"
               placeholder="Reply to ${comments.user.username}"
-            ></textarea>
+            >@${comments.user.username}, </textarea>
           </form>
           <div class="display__footer">
             <div class="user__img">
@@ -345,11 +344,10 @@ ${comments
                 columns="50"
                 wrap="hard"
                 class="add-reply__input add-reply__input--${rep.id}"
-                data-id="${rep.id}" 
-                value="@${rep.user.username}"
+                data-id="${rep.id}"
                 name="user-replies__${rep.id}"
                 placeholder="Reply to ${rep.user.username}"
-              ></textarea>
+              >@${rep.user.username}, </textarea>
             </form>
             <div class="display__footer">
               <div class="user__img">
@@ -451,10 +449,13 @@ const pushToReplies = function (comments) {
     `.add-reply__input--${comments.id}`
   );
   if (!replyInput) return;
-  if (!replyInput.value) return;
+  const text = replyInput.value;
+  if (!text) return;
   comments.replies.push({
     id: (lastId += 1),
-    content: replyInput.value[0].toUpperCase() + replyInput.value.slice(1),
+    content:
+      text.slice(text.indexOf(' '))[1].toUpperCase() +
+      text.slice(text.indexOf(' ')).slice(2),
     createdAt: formatDate(new Date()),
     score: 0,
     replyingTo: comments.user.username,
@@ -466,6 +467,8 @@ const pushToReplies = function (comments) {
       username: data.currentUser.username,
     },
   });
+  // capitalText =
+  console.log();
 };
 
 container.addEventListener('click', function (e) {
@@ -492,9 +495,13 @@ container.addEventListener('click', function (e) {
     `.add-reply__input--${comments[1].replies[index].id}`
   );
   if (!replyInput) return;
+  const text = replyInput.value;
+  if (!text || text === undefined) return;
   comments[1].replies.push({
     id: (lastId += 1),
-    content: replyInput.value[0].toUpperCase() + replyInput.value.slice(1),
+    content: text,
+    // text.slice(text.indexOf(' '))[1].toUpperCase() +
+    // text.slice(text.indexOf(' ')).slice(2),
     createdAt: formatDate(new Date()),
     score: 0,
     replyingTo: comments[1].replies[index].user.username,
@@ -507,7 +514,9 @@ container.addEventListener('click', function (e) {
     },
   });
   generateMarkup(comments);
-  console.log(comments[1].replies);
+  console.log(text);
+  console.log(text + ' ' === text.slice(0, text.indexOf(' ')));
+  console.log(text.slice(0, text.indexOf(' ')));
 });
 
 const formatDate = function (date) {
