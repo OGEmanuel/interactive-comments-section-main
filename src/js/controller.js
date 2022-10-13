@@ -68,7 +68,7 @@ ${comments
                 <p class="delete font">Delete</p>
               </div>
 
-              <div class="edit-box display__footer">
+              <div class="edit-box display__footer" data-id="${comments.id}">
                 <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M13.479 2.872 11.08.474a1.75 1.75 0 0 0-2.327-.06L.879 8.287a1.75 1.75 0 0 0-.5 1.06l-.375 3.648a.875.875 0 0 0 .875.954h.078l3.65-.333c.399-.04.773-.216 1.058-.499l7.875-7.875a1.68 1.68 0 0 0-.061-2.371Zm-2.975 2.923L8.159 3.449 9.865 1.7l2.389 2.39-1.75 1.706Z"
@@ -160,11 +160,10 @@ ${comments
               columns="50"
               wrap="hard"
               class="add-reply__input add-reply__input--${comments.id}"
-              data-id="${comments.id}" 
-              value="@${comments.user.username}"
+              data-id="${comments.id}"
               name="user-replies__${comments.id}"
               placeholder="Reply to ${comments.user.username}"
-            ></textarea>
+            >@${comments.user.username}, </textarea>
           </form>
           <div class="display__footer">
             <div class="user__img">
@@ -280,7 +279,7 @@ ${comments
                 <p class="delete font">Delete</p>
               </div>
 
-              <div class="edit-box display__footer">
+              <div class="edit-box display__footer" data-id="${rep.id}">
                 <svg
                   width="14"
                   height="14"
@@ -345,11 +344,10 @@ ${comments
                 columns="50"
                 wrap="hard"
                 class="add-reply__input add-reply__input--${rep.id}"
-                data-id="${rep.id}" 
-                value="@${rep.user.username}"
+                data-id="${rep.id}"
                 name="user-replies__${rep.id}"
                 placeholder="Reply to ${rep.user.username}"
-              ></textarea>
+              >@${rep.user.username}, </textarea>
             </form>
             <div class="display__footer">
               <div class="user__img">
@@ -451,10 +449,14 @@ const pushToReplies = function (comments) {
     `.add-reply__input--${comments.id}`
   );
   if (!replyInput) return;
-  if (!replyInput.value) return;
+  const text = replyInput.value;
+  if (!text) return;
+  if (text.length === text.slice(0, text.indexOf(' ')).length + 1) return;
   comments.replies.push({
     id: (lastId += 1),
-    content: replyInput.value[0].toUpperCase() + replyInput.value.slice(1),
+    content:
+      text.slice(text.indexOf(' '))[1].toUpperCase() +
+      text.slice(text.indexOf(' ')).slice(2),
     createdAt: formatDate(new Date()),
     score: 0,
     replyingTo: comments.user.username,
@@ -466,6 +468,12 @@ const pushToReplies = function (comments) {
       username: data.currentUser.username,
     },
   });
+  console.log(text.length, text);
+  console.log(
+    text.slice(0, text.indexOf(' ')).length + 1,
+    text.slice(0, text.indexOf(' '))
+  );
+  console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 };
 
 container.addEventListener('click', function (e) {
@@ -484,6 +492,7 @@ container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest(`.send-button__reply--2`);
   if (!clicked) return;
+  console.log(clicked);
   const index = comments[1].replies
     .map(rep => rep.id)
     .findIndex(id => id === +clicked.dataset.id);
@@ -492,9 +501,17 @@ container.addEventListener('click', function (e) {
     `.add-reply__input--${comments[1].replies[index].id}`
   );
   if (!replyInput) return;
+  const text = replyInput.value;
+  // debugger;
+  console.log(text.length);
+  if (!text) return;
+  // if (text.length === text.slice(0, text.indexOf(' ')).length + 1)
+  //   generateMarkup(comments);'
   comments[1].replies.push({
     id: (lastId += 1),
-    content: replyInput.value[0].toUpperCase() + replyInput.value.slice(1),
+    content: text,
+    // text.slice(text.indexOf(' '))[1].toUpperCase() +
+    // text.slice(text.indexOf(' ')).slice(2),
     createdAt: formatDate(new Date()),
     score: 0,
     replyingTo: comments[1].replies[index].user.username,
@@ -507,7 +524,14 @@ container.addEventListener('click', function (e) {
     },
   });
   generateMarkup(comments);
-  console.log(comments[1].replies);
+
+  // console.log(text + ' ' === text.slice(0, text.indexOf(' ')));
+  // console.log(text.length, text);
+  // console.log(
+  //   text.slice(0, text.indexOf(' ')).length + 1,
+  //   text.slice(0, text.indexOf(' '))
+  // );
+  // console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 });
 
 const formatDate = function (date) {
@@ -605,20 +629,12 @@ const deleteComments = function () {
     comments[index].replies.splice(repIndex, 1);
     generateMarkup(comments);
     console.log(comments[index].replies);
-
-    // const index = comments.findIndex(
-    //   com => console.log(com)
-    //   //com.replies.findIndex(
-    //   //rep => console.log(rep)
-    //   //rep.map(rep => rep.id === +clicked.dataset.id)
-    //   //)
-    // ); //.replies.map(rep => rep.id === +clicked.dataset.id))
-    //.findIndex(com => com); //com.closest('.comments-top'));
-    // //.findIndex(rep => rep.map(r => r.id === +clicked.dataset.id));
-    // console.log(index);
-
-    // comments.replies.splice(index, 1);
-    // console.log(comments[index]);
   });
 };
 deleteComments();
+
+container.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.edit-box');
+  if (!clicked) return;
+  console.log(clicked);
+});
