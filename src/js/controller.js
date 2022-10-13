@@ -451,6 +451,7 @@ const pushToReplies = function (comments) {
   if (!replyInput) return;
   const text = replyInput.value;
   if (!text) return;
+  if (text.length === text.slice(0, text.indexOf(' ')).length + 1) return;
   comments.replies.push({
     id: (lastId += 1),
     content:
@@ -467,8 +468,12 @@ const pushToReplies = function (comments) {
       username: data.currentUser.username,
     },
   });
-  // capitalText =
-  console.log();
+  console.log(text.length, text);
+  console.log(
+    text.slice(0, text.indexOf(' ')).length + 1,
+    text.slice(0, text.indexOf(' '))
+  );
+  console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 };
 
 container.addEventListener('click', function (e) {
@@ -487,6 +492,7 @@ container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest(`.send-button__reply--2`);
   if (!clicked) return;
+  console.log(clicked);
   const index = comments[1].replies
     .map(rep => rep.id)
     .findIndex(id => id === +clicked.dataset.id);
@@ -496,7 +502,11 @@ container.addEventListener('click', function (e) {
   );
   if (!replyInput) return;
   const text = replyInput.value;
-  if (!text || text === undefined) return;
+  // debugger;
+  console.log(text.length);
+  if (!text) return;
+  // if (text.length === text.slice(0, text.indexOf(' ')).length + 1)
+  //   generateMarkup(comments);'
   comments[1].replies.push({
     id: (lastId += 1),
     content: text,
@@ -514,9 +524,14 @@ container.addEventListener('click', function (e) {
     },
   });
   generateMarkup(comments);
-  console.log(text);
-  console.log(text + ' ' === text.slice(0, text.indexOf(' ')));
-  console.log(text.slice(0, text.indexOf(' ')));
+
+  // console.log(text + ' ' === text.slice(0, text.indexOf(' ')));
+  // console.log(text.length, text);
+  // console.log(
+  //   text.slice(0, text.indexOf(' ')).length + 1,
+  //   text.slice(0, text.indexOf(' '))
+  // );
+  // console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 });
 
 const formatDate = function (date) {
