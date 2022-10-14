@@ -32,11 +32,24 @@ ${comments
             </div>
             <p class="created-at">${comments.createdAt}</p>
           </div>
-          <div class="content-box">
-            <p class="content">
+          <div class="content-box content-box__${comments.id}">
+            <p class="content content__${comments.id}">
               ${comments.content}
             </p>
           </div>
+          <form class="form form__${comments.id} hidden">
+            <textarea
+              id="user-comments"
+              type="text"
+              rows="3"
+              columns="50"
+              wrap="hard"
+              class="add-comment__input edit-comment__${comments.id}"
+              placeholder="Edit comment..."
+              name="user-comments"
+            >${comments.content}</textarea>
+            <label id="user-comments"></label>
+          </form>
           <div class="display__footer">
             <div class="score-box">
               <div class="score-box__icon plus">
@@ -79,6 +92,7 @@ ${comments
               </div>
             </div>
           </div>
+          <button class="button send-button update-button update-button__${comments.id} hidden" data-id="${comments.id}">Update</button>
         </div>
       </div>
       
@@ -634,5 +648,58 @@ deleteComments();
 container.addEventListener('click', function (e) {
   const clicked = e.target.closest('.edit-box');
   if (!clicked) return;
+  const commentBox = container.querySelector(
+    `.comments__${clicked.dataset.id}`
+  );
+  // console.log(commentBox);
+  // console.log(commentBox.querySelector(`.form__${clicked.dataset.id}`));
   // console.log(clicked);
+  // console.log(container.querySelector(`.comments__${clicked.dataset.id}`));
+
+  container
+    .querySelector(`.content-box__${clicked.dataset.id}`)
+    .classList.add('hidden');
+  // console.log(commentBox.querySelector(`form__${clicked.dataset.id}`));
+  commentBox
+    .querySelector(`.form__${clicked.dataset.id}`)
+    .classList.remove('hidden');
+  commentBox
+    .querySelector(`.update-button__${clicked.dataset.id}`)
+    .classList.remove('hidden');
+});
+
+container.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.update-button');
+  if (!clicked) return;
+  const commentBox = container.querySelector(
+    `.comments__${clicked.dataset.id}`
+  );
+  const editInput = commentBox.querySelector(
+    `.edit-comment__${clicked.dataset.id}`
+  );
+  console.log(editInput.value);
+
+  const index = comments
+    .map(com => com.id)
+    .findIndex(id => id === +clicked.dataset.id);
+  console.log(comments[index].content);
+  console.log(editInput.value === comments[index].content);
+  if (editInput.value !== comments[index].content)
+    comments[index].content = editInput.value + ' (edited)';
+  // comments[index].replace(comments[index].content, editInput.value);
+  else
+    return (
+      container
+        .querySelector(`.content-box__${clicked.dataset.id}`)
+        .classList.remove('hidden'),
+      commentBox
+        .querySelector(`.form__${clicked.dataset.id}`)
+        .classList.add('hidden'),
+      commentBox
+        .querySelector(`.update-button__${clicked.dataset.id}`)
+        .classList.add('hidden')
+    );
+  // console.log(comments[index].content);
+  console.log(comments[index]);
+  generateMarkup(comments);
 });
