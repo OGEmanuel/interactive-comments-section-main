@@ -418,7 +418,7 @@ container.addEventListener('click', function (e) {
 const pushToData = function (data) {
   const commentInput = container.querySelector('.add-comment__input');
   if (!commentInput.value) return;
-  console.log(commentInput.value);
+  // console.log(commentInput.value);
   data.comments.push({
     id: (lastId += 1),
     content: commentInput.value[0].toUpperCase() + commentInput.value.slice(1),
@@ -441,7 +441,7 @@ container.addEventListener('click', function (e) {
   if (!clicked) return;
   pushToData(data);
   generateMarkup(comments);
-  console.log(comments);
+  // console.log(comments);
 });
 
 const pushToReplies = function (comments) {
@@ -468,11 +468,11 @@ const pushToReplies = function (comments) {
       username: data.currentUser.username,
     },
   });
-  console.log(text.length, text);
-  console.log(
-    text.slice(0, text.indexOf(' ')).length + 1,
-    text.slice(0, text.indexOf(' '))
-  );
+  // console.log(text.length, text);
+  // console.log(
+  //   text.slice(0, text.indexOf(' ')).length + 1,
+  //   text.slice(0, text.indexOf(' '))
+  // );
   console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 };
 
@@ -492,7 +492,7 @@ container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest(`.send-button__reply--2`);
   if (!clicked) return;
-  console.log(clicked);
+  // console.log(clicked);
   const index = comments[1].replies
     .map(rep => rep.id)
     .findIndex(id => id === +clicked.dataset.id);
@@ -504,34 +504,32 @@ container.addEventListener('click', function (e) {
   const text = replyInput.value;
   // debugger;
   console.log(text.length);
-  if (!text) return;
-  // if (text.length === text.slice(0, text.indexOf(' ')).length + 1)
-  //   generateMarkup(comments);'
-  comments[1].replies.push({
-    id: (lastId += 1),
-    content: text,
-    // text.slice(text.indexOf(' '))[1].toUpperCase() +
-    // text.slice(text.indexOf(' ')).slice(2),
-    createdAt: formatDate(new Date()),
-    score: 0,
-    replyingTo: comments[1].replies[index].user.username,
-    user: {
-      image: {
-        png: data.currentUser.image.png,
-        webp: data.currentUser.image.webp,
+  if (!text)
+    return container
+      .querySelector(`.add-reply--${clicked.dataset.id}`)
+      .classList.add('hidden');
+  if (text.length === text.slice(0, text.indexOf(' ')).length + 1)
+    return container
+      .querySelector(`.add-reply--${clicked.dataset.id}`)
+      .classList.add('hidden');
+  else
+    comments[1].replies.push({
+      id: (lastId += 1),
+      content:
+        text.slice(text.indexOf(' '))[1].toUpperCase() +
+        text.slice(text.indexOf(' ')).slice(2),
+      createdAt: formatDate(new Date()),
+      score: 0,
+      replyingTo: comments[1].replies[index].user.username,
+      user: {
+        image: {
+          png: data.currentUser.image.png,
+          webp: data.currentUser.image.webp,
+        },
+        username: data.currentUser.username,
       },
-      username: data.currentUser.username,
-    },
-  });
+    });
   generateMarkup(comments);
-
-  // console.log(text + ' ' === text.slice(0, text.indexOf(' ')));
-  // console.log(text.length, text);
-  // console.log(
-  //   text.slice(0, text.indexOf(' ')).length + 1,
-  //   text.slice(0, text.indexOf(' '))
-  // );
-  // console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 });
 
 const formatDate = function (date) {
@@ -613,18 +611,18 @@ const deleteComments = function () {
       '.container__replies'
     ).previousElementSibling;
     if (!clickedTop) return;
-    console.log(clickedTop);
+    // console.log(clickedTop);
 
     const index = comments
       .map(com => com.id)
       .findIndex(id => id === +clickedTop.dataset.id);
-    console.log(index);
+    // console.log(index);
 
     console.log(comments[index].replies);
     const repIndex = comments[index].replies
       .map(rep => rep.id)
       .findIndex(id => id === +clicked.dataset.id);
-    console.log(repIndex);
+    // console.log(repIndex);
 
     comments[index].replies.splice(repIndex, 1);
     generateMarkup(comments);
@@ -636,5 +634,5 @@ deleteComments();
 container.addEventListener('click', function (e) {
   const clicked = e.target.closest('.edit-box');
   if (!clicked) return;
-  console.log(clicked);
+  // console.log(clicked);
 });
