@@ -34,7 +34,7 @@ ${comments
           </div>
           <div class="content-box content-box__${comments.id}">
             <p class="content content__${comments.id}">
-              ${comments.content}
+              ${comments.content} <span class="hidden">(edited)</span>
             </p>
           </div>
           <form class="form form__${comments.id} hidden">
@@ -418,6 +418,7 @@ ${comments
 };
 generateMarkup(comments);
 
+// Display reply box
 container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest('.reply-box' || '.reply-box__replies');
@@ -429,10 +430,10 @@ container.addEventListener('click', function (e) {
     .classList.toggle('hidden');
 });
 
+// Add Comments to comments array
 const pushToData = function (data) {
   const commentInput = container.querySelector('.add-comment__input');
   if (!commentInput.value) return;
-  // console.log(commentInput.value);
   data.comments.push({
     id: (lastId += 1),
     content: commentInput.value[0].toUpperCase() + commentInput.value.slice(1),
@@ -449,15 +450,16 @@ const pushToData = function (data) {
   });
 };
 
+// Send Comments
 container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest('.send-button__comment');
   if (!clicked) return;
   pushToData(data);
   generateMarkup(comments);
-  // console.log(comments);
 });
 
+// Add replies to replies array
 const pushToReplies = function (comments) {
   const replyInput = container.querySelector(
     `.add-reply__input--${comments.id}`
@@ -482,14 +484,10 @@ const pushToReplies = function (comments) {
       username: data.currentUser.username,
     },
   });
-  // console.log(text.length, text);
-  // console.log(
-  //   text.slice(0, text.indexOf(' ')).length + 1,
-  //   text.slice(0, text.indexOf(' '))
-  // );
   console.log(text.length === text.slice(0, text.indexOf(' ')).length + 1);
 };
 
+// Send replies
 container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest(`.send-button__reply`);
@@ -502,6 +500,7 @@ container.addEventListener('click', function (e) {
   console.log(comments[index]);
 });
 
+// Add and send replies to replies
 container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest(`.send-button__reply--2`);
@@ -516,7 +515,6 @@ container.addEventListener('click', function (e) {
   );
   if (!replyInput) return;
   const text = replyInput.value;
-  // debugger;
   console.log(text.length);
   if (!text)
     return container
@@ -546,6 +544,7 @@ container.addEventListener('click', function (e) {
   generateMarkup(comments);
 });
 
+// Date format
 const formatDate = function (date) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
@@ -564,6 +563,7 @@ const formatDate = function (date) {
   }
 };
 
+// Show modal
 container.addEventListener('click', function (e) {
   e.preventDefault();
   const clicked = e.target.closest('.delete-box__comments');
@@ -578,88 +578,80 @@ container.addEventListener('click', function (e) {
     .classList.remove('hidden');
 });
 
-const deleteComments = function () {
-  container.addEventListener('click', function (e) {
-    const clicked = e.target.closest(`.button-cancel`);
-    if (!clicked) return;
-    // console.log(userComments);
-    container
-      .querySelector(`.modal__${clicked.dataset.id}`)
-      .classList.add('hidden');
-    container
-      .querySelector(`.overlay__${clicked.dataset.id}`)
-      .classList.add('hidden');
-  });
+// Remove modal
+container.addEventListener('click', function (e) {
+  const clicked = e.target.closest(`.button-cancel`);
+  if (!clicked) return;
+  container
+    .querySelector(`.modal__${clicked.dataset.id}`)
+    .classList.add('hidden');
+  container
+    .querySelector(`.overlay__${clicked.dataset.id}`)
+    .classList.add('hidden');
+});
 
-  container.addEventListener('click', function (e) {
-    const clicked = e.target.closest(`.button-delete__comments`);
-    if (!clicked) return;
-    container
-      .querySelector(`.modal__${clicked.dataset.id}`)
-      .classList.add('hidden');
-    container
-      .querySelector(`.overlay__${clicked.dataset.id}`)
-      .classList.add('hidden');
+// Delete Comments
+container.addEventListener('click', function (e) {
+  const clicked = e.target.closest(`.button-delete__comments`);
+  if (!clicked) return;
+  container
+    .querySelector(`.modal__${clicked.dataset.id}`)
+    .classList.add('hidden');
+  container
+    .querySelector(`.overlay__${clicked.dataset.id}`)
+    .classList.add('hidden');
 
-    const index = comments
-      .map(com => com.id)
-      .findIndex(id => id === +clicked.dataset.id);
+  const index = comments
+    .map(com => com.id)
+    .findIndex(id => id === +clicked.dataset.id);
 
-    comments.splice(index, 1);
-    generateMarkup(comments);
-    console.log(comments, comments.length);
-  });
+  comments.splice(index, 1);
+  generateMarkup(comments);
+  console.log(comments, comments.length);
+});
 
-  container.addEventListener('click', function (e) {
-    const clicked = e.target.closest('.button-delete__reply');
-    if (!clicked) return;
+// Delete replies
+container.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.button-delete__reply');
+  if (!clicked) return;
 
-    container
-      .querySelector(`.modal__${clicked.dataset.id}`)
-      .classList.add('hidden');
-    container
-      .querySelector(`.overlay__${clicked.dataset.id}`)
-      .classList.add('hidden');
+  container
+    .querySelector(`.modal__${clicked.dataset.id}`)
+    .classList.add('hidden');
+  container
+    .querySelector(`.overlay__${clicked.dataset.id}`)
+    .classList.add('hidden');
 
-    const clickedTop = clicked.closest(
-      '.container__replies'
-    ).previousElementSibling;
-    if (!clickedTop) return;
-    // console.log(clickedTop);
+  const clickedTop = clicked.closest(
+    '.container__replies'
+  ).previousElementSibling;
+  if (!clickedTop) return;
 
-    const index = comments
-      .map(com => com.id)
-      .findIndex(id => id === +clickedTop.dataset.id);
-    // console.log(index);
+  const index = comments
+    .map(com => com.id)
+    .findIndex(id => id === +clickedTop.dataset.id);
 
-    console.log(comments[index].replies);
-    const repIndex = comments[index].replies
-      .map(rep => rep.id)
-      .findIndex(id => id === +clicked.dataset.id);
-    // console.log(repIndex);
+  console.log(comments[index].replies);
+  const repIndex = comments[index].replies
+    .map(rep => rep.id)
+    .findIndex(id => id === +clicked.dataset.id);
 
-    comments[index].replies.splice(repIndex, 1);
-    generateMarkup(comments);
-    console.log(comments[index].replies);
-  });
-};
-deleteComments();
+  comments[index].replies.splice(repIndex, 1);
+  generateMarkup(comments);
+  console.log(comments[index].replies);
+});
 
+// Show Edit box
 container.addEventListener('click', function (e) {
   const clicked = e.target.closest('.edit-box');
   if (!clicked) return;
   const commentBox = container.querySelector(
     `.comments__${clicked.dataset.id}`
   );
-  // console.log(commentBox);
-  // console.log(commentBox.querySelector(`.form__${clicked.dataset.id}`));
-  // console.log(clicked);
-  // console.log(container.querySelector(`.comments__${clicked.dataset.id}`));
 
   container
     .querySelector(`.content-box__${clicked.dataset.id}`)
     .classList.add('hidden');
-  // console.log(commentBox.querySelector(`form__${clicked.dataset.id}`));
   commentBox
     .querySelector(`.form__${clicked.dataset.id}`)
     .classList.remove('hidden');
@@ -668,6 +660,7 @@ container.addEventListener('click', function (e) {
     .classList.remove('hidden');
 });
 
+// Edit comments
 container.addEventListener('click', function (e) {
   const clicked = e.target.closest('.update-button');
   if (!clicked) return;
@@ -684,10 +677,8 @@ container.addEventListener('click', function (e) {
     .findIndex(id => id === +clicked.dataset.id);
   console.log(comments[index].content);
   console.log(editInput.value === comments[index].content);
-  if (editInput.value !== comments[index].content)
-    comments[index].content = editInput.value + ' (edited)';
-  // comments[index].replace(comments[index].content, editInput.value);
-  else
+  console.log(editInput.value);
+  if (editInput.value === comments[index].content)
     return (
       container
         .querySelector(`.content-box__${clicked.dataset.id}`)
@@ -699,7 +690,9 @@ container.addEventListener('click', function (e) {
         .querySelector(`.update-button__${clicked.dataset.id}`)
         .classList.add('hidden')
     );
-  // console.log(comments[index].content);
+  if (editInput.value !== comments[index].content && editInput.value !== '')
+    comments[index].content = editInput.value;
+
   console.log(comments[index]);
   generateMarkup(comments);
 });
